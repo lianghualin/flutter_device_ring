@@ -1,0 +1,19 @@
+name: traffic_ring_widget
+description: A customizable traffic utilization ring gauge widget for Flutter. Displays network utilization with animated arcs, tier colors, and smooth state transitions.
+version: 0.1.0
+homepage: https://github.com/user/traffic_ring_widget
+repository: https://github.com/user/traffic_ring_widget
+issue_tracker: https://github.com/user/traffic_ring_widget/issues
+
+environment:
+  sdk: ^3.11.0
+  flutter: ">=3.10.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
