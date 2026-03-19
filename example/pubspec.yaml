@@ -1,5 +1,5 @@
-name: traffic_ring_example
-description: Example app for traffic_ring_widget package.
+name: flutter_device_ring_example
+description: Example app for flutter_device_ring package.
 publish_to: 'none'
 version: 1.0.0+1
 
@@ -9,7 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  traffic_ring_widget:
+  flutter_device_ring:
     path: ../
 
 dev_dependencies:

@@ -1,39 +1,83 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# flutter_device_ring
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages).
-
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages).
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+A customizable dual-traffic utilization ring gauge widget for Flutter. Displays inbound and outbound network utilization for devices as animated arcs with tier-based coloring.
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+- **Dual-arc ring** — left half shows inbound traffic, right half shows outbound
+- **Tier-based colors** — automatically colors arcs as low, medium, high, or critical
+- **Smooth animations** — animated transitions when values change
+- **Glow effect** — optional pulsing glow around the ring
+- **Info overlay** — toggle to show percentage and tier badges instead of the child widget
+- **Direction labels** — configurable IN/OUT labels on ring sides
+- **Fully themeable** — customize all colors, stroke width, and label styles via `DeviceRingTheme`
 
 ## Getting started
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+Add the package to your `pubspec.yaml`:
+
+```yaml
+dependencies:
+  flutter_device_ring: ^0.1.0
+```
+
+Then run:
+
+```bash
+flutter pub get
+```
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+```dart
+import 'package:flutter_device_ring/flutter_device_ring.dart';
+
+DeviceRing(
+  inbound: 0.73,
+  outbound: 0.45,
+  size: 100,
+  child: Icon(Icons.router, size: 40),
+  label: 'Switch-A',
+)
+```
+
+### With custom theme
 
 ```dart
-const like = 'sample';
+DeviceRing(
+  inbound: 0.85,
+  outbound: 0.60,
+  size: 120,
+  theme: const DeviceRingTheme(
+    strokeWidth: 8.0,
+    showDirectionLabels: true,
+  ),
+  showGlow: true,
+  child: Icon(Icons.dns, size: 48),
+)
 ```
+
+### Show info overlay
+
+```dart
+DeviceRing(
+  inbound: 0.72,
+  outbound: 0.45,
+  showInfo: true, // shows percentage + tier badges
+)
+```
+
+## Utilization tiers
+
+| Tier | Range | Label |
+|------|-------|-------|
+| Low | 0% – 49% | LOW |
+| Medium | 50% – 79% | MED |
+| High | 80% – 94% | HIGH |
+| Critical | 95% – 100% | CRIT |
 
 ## Additional information
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+- [Example app](example/) — interactive demo with sliders and tier gallery
+- [API reference](https://pub.dev/documentation/flutter_device_ring/latest/)
+- [File issues](https://github.com/lianghualin/flutter_device_ring/issues)
