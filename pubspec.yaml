@@ -1,6 +1,6 @@
 name: flutter_device_ring
 description: A customizable traffic utilization ring gauge widget for Flutter. Displays network utilization with animated arcs, tier colors, and smooth state transitions.
-version: 0.2.0
+version: 0.2.1
 homepage: https://github.com/lianghualin/flutter_device_ring
 repository: https://github.com/lianghualin/flutter_device_ring
 issue_tracker: https://github.com/lianghualin/flutter_device_ring/issues

@@ -1,3 +1,9 @@
+## 0.2.1
+
+* **New:** `labelBackgroundDecoration` parameter — add a background (color, border, shadow) behind the label for readability over overlapping elements like connection lines.
+* **New:** `labelBackgroundPadding` parameter — inner padding when background decoration is set.
+* Updated example app with label background decoration demos.
+
 ## 0.2.0
 
 * **New:** `labelWidget` parameter — display any custom widget below the ring (multi-line text, IP addresses, port counts, status badges, etc.). Takes precedence over `label`.

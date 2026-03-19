@@ -65,6 +65,15 @@ class DeviceRing extends StatefulWidget {
   /// Padding between the ring and the label area.
   final EdgeInsets labelPadding;
 
+  /// Background decoration for the label area. When provided, wraps the
+  /// label content in a [Container] with this decoration and inner padding.
+  /// Useful for readability when connection lines or other elements
+  /// overlap the label area.
+  final BoxDecoration? labelBackgroundDecoration;
+
+  /// Inner padding applied when [labelBackgroundDecoration] is set.
+  final EdgeInsets labelBackgroundPadding;
+
   const DeviceRing({
     super.key,
     required this.inbound,
@@ -81,6 +90,9 @@ class DeviceRing extends StatefulWidget {
     this.labelWidget,
     this.labelMaxWidth,
     this.labelPadding = const EdgeInsets.only(top: 4),
+    this.labelBackgroundDecoration,
+    this.labelBackgroundPadding =
+        const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
   });
 
   @override
@@ -267,10 +279,14 @@ class _DeviceRingState extends State<DeviceRing>
               if (hasLabel)
                 Padding(
                   padding: widget.labelPadding,
-                  child: ConstrainedBox(
+                  child: Container(
                     constraints: BoxConstraints(
                       maxWidth: widget.labelMaxWidth ?? widget.size,
                     ),
+                    decoration: widget.labelBackgroundDecoration,
+                    padding: widget.labelBackgroundDecoration != null
+                        ? widget.labelBackgroundPadding
+                        : null,
                     child: labelContent,
                   ),
                 ),

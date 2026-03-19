@@ -220,6 +220,10 @@ class _DemoPageState extends State<DemoPage> {
                     ],
                   ),
                   labelPadding: const EdgeInsets.only(top: 6),
+                  labelBackgroundDecoration: BoxDecoration(
+                    color: Colors.white.withAlpha(217),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
                   child: const Icon(Icons.router, size: 40, color: Colors.blueGrey),
                 ),
                 DeviceRing(
@@ -251,6 +255,11 @@ class _DemoPageState extends State<DemoPage> {
                   ),
                   labelMaxWidth: 120,
                   labelPadding: const EdgeInsets.only(top: 6),
+                  labelBackgroundDecoration: BoxDecoration(
+                    color: Colors.white.withAlpha(230),
+                    borderRadius: BorderRadius.circular(6),
+                    border: Border.all(color: Colors.grey.shade300),
+                  ),
                   child: const Icon(Icons.dns, size: 40, color: Colors.blueGrey),
                 ),
                 DeviceRing(

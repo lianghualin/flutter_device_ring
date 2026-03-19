@@ -18,7 +18,7 @@ Add the package to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  flutter_device_ring: ^0.2.0
+  flutter_device_ring: ^0.2.1
 ```
 
 Then run:
@@ -115,6 +115,22 @@ DeviceRing(
 ```
 
 When `labelWidget` is provided, it takes precedence over `label`.
+
+### Label background for topology views
+
+Add a background behind the label for readability when connection lines overlap:
+
+```dart
+DeviceRing(
+  inbound: 0.72,
+  outbound: 0.45,
+  label: 'Switch-A',
+  labelBackgroundDecoration: BoxDecoration(
+    color: Colors.white.withAlpha(217),
+    borderRadius: BorderRadius.circular(4),
+  ),
+  child: Icon(Icons.router, size: 40),
+)
 
 ### Show info overlay
 

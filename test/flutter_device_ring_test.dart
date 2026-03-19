@@ -182,10 +182,50 @@ void main() {
           ),
         ),
       );
-      final constrainedBox = find.byWidgetPredicate(
-        (w) => w is ConstrainedBox && w.constraints.maxWidth == 60,
+      final container = find.byWidgetPredicate(
+        (w) => w is Container && w.constraints?.maxWidth == 60,
       );
-      expect(constrainedBox, findsOneWidget);
+      expect(container, findsOneWidget);
+    });
+
+    testWidgets('labelBackgroundDecoration wraps label in decorated container',
+        (tester) async {
+      final decoration = BoxDecoration(
+        color: const Color(0xDDFFFFFF),
+        borderRadius: BorderRadius.circular(4),
+      );
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: DeviceRing(
+              inbound: 0.5,
+              outbound: 0.3,
+              label: 'Switch-A',
+              labelBackgroundDecoration: decoration,
+            ),
+          ),
+        ),
+      );
+      final container = find.byWidgetPredicate(
+        (w) => w is Container && w.decoration == decoration,
+      );
+      expect(container, findsOneWidget);
+    });
+
+    testWidgets('labelBackgroundDecoration defaults to null', (tester) async {
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: DeviceRing(
+              inbound: 0.5,
+              outbound: 0.3,
+              label: 'Test',
+            ),
+          ),
+        ),
+      );
+      final widget = tester.widget<DeviceRing>(find.byType(DeviceRing));
+      expect(widget.labelBackgroundDecoration, isNull);
     });
 
     testWidgets('labelPadding defaults to EdgeInsets.only(top: 4)',
