@@ -45,6 +45,10 @@ class DeviceRing extends StatefulWidget {
   /// Whether to show a glow effect around the ring.
   final bool showGlow;
 
+  /// Glow intensity multiplier from 0.0 (subtle) to 1.0 (prominent).
+  /// Only applies when [showGlow] is true.
+  final double glowIntensity;
+
   /// Optional label displayed below the ring.
   final String? label;
 
@@ -61,6 +65,7 @@ class DeviceRing extends StatefulWidget {
     this.animationDuration = const Duration(milliseconds: 600),
     this.showInfo = false,
     this.showGlow = false,
+    this.glowIntensity = 0.5,
     this.label,
     this.labelStyle,
   });
@@ -157,8 +162,11 @@ class _DeviceRingState extends State<DeviceRing>
           final glowColor = widget.inbound >= widget.outbound
               ? widget.theme.inboundColorForTier(glowTier)
               : widget.theme.outboundColorForTier(glowTier);
-          final glowAlpha = 0.12 + 0.28 * _glowController.value;
-          final glowSpread = 3.0 + 5.0 * _glowController.value;
+          final intensity = widget.glowIntensity.clamp(0.0, 1.0);
+          final glowAlpha =
+              (0.12 + 0.28 * _glowController.value) * (0.4 + intensity * 1.2);
+          final glowSpread =
+              (3.0 + 5.0 * _glowController.value) * (0.5 + intensity);
           shadows.add(BoxShadow(
             color: glowColor.withValues(alpha: glowAlpha),
             blurRadius: glowSpread * 2,
@@ -179,32 +187,54 @@ class _DeviceRingState extends State<DeviceRing>
                   shape: BoxShape.circle,
                   boxShadow: shadows.isNotEmpty ? shadows : null,
                 ),
-                child: CustomPaint(
-                  painter: _HalfAndHalfPainter(
-                    inbound: _inAnimation.value,
-                    outbound: _outAnimation.value,
-                    theme: widget.theme,
-                  ),
-                  child: Center(
-                    child: AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 250),
-                      switchInCurve: Curves.easeOut,
-                      switchOutCurve: Curves.easeIn,
-                      child: widget.showInfo
-                          ? _DualInfoOverlay(
-                              key: const ValueKey('info'),
-                              inbound: widget.inbound,
-                              outbound: widget.outbound,
-                              theme: widget.theme,
-                              size: widget.size,
-                            )
-                          : SizedBox(
-                              key: const ValueKey('child'),
-                              child: widget.child,
-                            ),
+                child: Builder(builder: (context) {
+                  // Constrain the child to fit inside the ring arcs.
+                  // The ring is inset by strokeWidth on each side plus a
+                  // gap for the arc glow, so the child must be smaller.
+                  final childMaxSize =
+                      widget.size - (widget.theme.strokeWidth * 2) - 8;
+
+                  return CustomPaint(
+                    painter: _HalfAndHalfPainter(
+                      inbound: _inAnimation.value,
+                      outbound: _outAnimation.value,
+                      theme: widget.theme,
                     ),
-                  ),
-                ),
+                    child: Center(
+                      child: AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 250),
+                        switchInCurve: Curves.easeOut,
+                        switchOutCurve: Curves.easeIn,
+                        child: widget.showInfo
+                            ? SizedBox(
+                                key: const ValueKey('info'),
+                                width: childMaxSize,
+                                height: childMaxSize,
+                                child: FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: _DualInfoOverlay(
+                                    inbound: widget.inbound,
+                                    outbound: widget.outbound,
+                                    theme: widget.theme,
+                                    size: widget.size,
+                                  ),
+                                ),
+                              )
+                            : SizedBox(
+                                key: const ValueKey('child'),
+                                width: childMaxSize,
+                                height: childMaxSize,
+                                child: widget.child != null
+                                    ? FittedBox(
+                                        fit: BoxFit.contain,
+                                        child: widget.child,
+                                      )
+                                    : null,
+                              ),
+                      ),
+                    ),
+                  );
+                }),
               ),
               if (widget.label != null)
                 Padding(
@@ -241,7 +271,6 @@ class _DualInfoOverlay extends StatelessWidget {
   final double size;
 
   const _DualInfoOverlay({
-    super.key,
     required this.inbound,
     required this.outbound,
     required this.theme,

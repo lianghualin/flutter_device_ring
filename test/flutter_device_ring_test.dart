@@ -66,6 +66,68 @@ void main() {
       expect(find.text('Switch-A'), findsOneWidget);
     });
 
+    testWidgets('constrains child within ring arcs', (tester) async {
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: DeviceRing(
+              inbound: 0.5,
+              outbound: 0.3,
+              size: 100,
+              child: SizedBox(width: 200, height: 200), // oversized child
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      // The child should be wrapped in a FittedBox inside a constrained SizedBox.
+      // With size=100 and default strokeWidth=6: childMax = 100 - 12 - 8 = 80
+      final fittedBox = find.byType(FittedBox);
+      expect(fittedBox, findsOneWidget);
+
+      // The constraining SizedBox should limit the area
+      final constrainingSizedBox = find.ancestor(
+        of: fittedBox,
+        matching: find.byWidgetPredicate(
+          (w) => w is SizedBox && w.width == 80 && w.height == 80,
+        ),
+      );
+      expect(constrainingSizedBox, findsOneWidget);
+    });
+
+    testWidgets('accepts glowIntensity parameter', (tester) async {
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: DeviceRing(
+              inbound: 0.5,
+              outbound: 0.3,
+              showGlow: true,
+              glowIntensity: 1.0,
+            ),
+          ),
+        ),
+      );
+      // Should build without error
+      expect(find.byType(DeviceRing), findsOneWidget);
+    });
+
+    testWidgets('glowIntensity defaults to 0.5', (tester) async {
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: DeviceRing(
+              inbound: 0.5,
+              outbound: 0.3,
+            ),
+          ),
+        ),
+      );
+      final widget = tester.widget<DeviceRing>(find.byType(DeviceRing));
+      expect(widget.glowIntensity, 0.5);
+    });
+
     testWidgets('shows info overlay when showInfo is true', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(

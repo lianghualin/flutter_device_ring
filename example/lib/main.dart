@@ -37,6 +37,7 @@ class _DemoPageState extends State<DemoPage> {
   bool _showLabels = true;
   double _ringSize = 100;
   double _strokeWidth = 6.0;
+  double _glowIntensity = 0.5;
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +71,7 @@ class _DemoPageState extends State<DemoPage> {
                       theme: theme,
                       showInfo: _showInfo,
                       showGlow: _showGlow,
+                      glowIntensity: _glowIntensity,
                       label: 'Switch-A',
                       child: Icon(
                         Icons.router,
@@ -107,6 +109,13 @@ class _DemoPageState extends State<DemoPage> {
                       divisions: 7,
                       displayValue: '${_strokeWidth.round()}px',
                       onChanged: (v) => setState(() => _strokeWidth = v),
+                    ),
+                    _SliderRow(
+                      label: 'Glow',
+                      value: _glowIntensity,
+                      divisions: 10,
+                      displayValue: _glowIntensity.toStringAsFixed(1),
+                      onChanged: (v) => setState(() => _glowIntensity = v),
                     ),
                     const SizedBox(height: 8),
 

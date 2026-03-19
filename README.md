@@ -18,7 +18,7 @@ Add the package to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  flutter_device_ring: ^0.1.0
+  flutter_device_ring: ^0.1.1
 ```
 
 Then run:
@@ -54,6 +54,41 @@ DeviceRing(
   ),
   showGlow: true,
   child: Icon(Icons.dns, size: 48),
+)
+```
+
+### With custom device image
+
+The `child` parameter accepts any widget. Images and SVGs are automatically
+scaled to fit inside the ring arcs.
+
+```dart
+// PNG or any asset image
+DeviceRing(
+  inbound: 0.73,
+  outbound: 0.45,
+  child: Image.asset('assets/my_device.png'),
+)
+
+// SVG (using flutter_svg)
+DeviceRing(
+  inbound: 0.73,
+  outbound: 0.45,
+  child: SvgPicture.asset('assets/my_device.svg'),
+)
+```
+
+### With glow intensity
+
+Control the prominence of the outer halo with `glowIntensity` (0.0–1.0):
+
+```dart
+DeviceRing(
+  inbound: 0.85,
+  outbound: 0.60,
+  showGlow: true,
+  glowIntensity: 1.0, // prominent halo for dashboards
+  child: Icon(Icons.router, size: 40),
 )
 ```
 

@@ -1,3 +1,10 @@
+## 0.1.1
+
+* **Fix:** Child widget (images, SVGs) no longer overflows and covers ring arcs — automatically constrained to fit inside the ring with `FittedBox` scaling.
+* **New:** `glowIntensity` parameter (0.0–1.0) to control the prominence of the outer glow halo.
+* Updated example app with glow intensity slider.
+* Updated README with custom image and glow intensity usage examples.
+
 ## 0.1.0
 
 * Initial release of `flutter_device_ring`.
