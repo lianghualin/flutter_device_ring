@@ -187,6 +187,90 @@ class _DemoPageState extends State<DemoPage> {
             ),
             const SizedBox(height: 32),
 
+            // --- Custom label widgets ---
+            Text(
+              'Custom Label Widgets',
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            const SizedBox(height: 16),
+            Wrap(
+              spacing: 32,
+              runSpacing: 32,
+              crossAxisAlignment: WrapCrossAlignment.start,
+              children: [
+                DeviceRing(
+                  inbound: 0.72,
+                  outbound: 0.45,
+                  size: 100,
+                  theme: theme,
+                  labelWidget: const Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Switch-A',
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      Text(
+                        '10.0.0.1',
+                        style: TextStyle(fontSize: 9, color: Colors.grey),
+                      ),
+                    ],
+                  ),
+                  labelPadding: const EdgeInsets.only(top: 6),
+                  child: const Icon(Icons.router, size: 40, color: Colors.blueGrey),
+                ),
+                DeviceRing(
+                  inbound: 0.95,
+                  outbound: 0.88,
+                  size: 100,
+                  theme: theme,
+                  showGlow: true,
+                  glowIntensity: 0.8,
+                  labelWidget: const Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Probe-Switch-16',
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      Text(
+                        '192.168.1.100',
+                        style: TextStyle(fontSize: 9, color: Colors.grey),
+                      ),
+                      Text(
+                        '[16 ports]',
+                        style: TextStyle(fontSize: 8, color: Colors.grey),
+                      ),
+                    ],
+                  ),
+                  labelMaxWidth: 120,
+                  labelPadding: const EdgeInsets.only(top: 6),
+                  child: const Icon(Icons.dns, size: 40, color: Colors.blueGrey),
+                ),
+                DeviceRing(
+                  inbound: 0.30,
+                  outbound: 0.20,
+                  size: 80,
+                  theme: theme,
+                  labelWidget: const Text(
+                    'Host-4',
+                    style: TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  child: const Icon(Icons.computer, size: 32, color: Colors.blueGrey),
+                ),
+              ],
+            ),
+            const SizedBox(height: 32),
+
             // --- Size comparison ---
             Text(
               'Size Comparison',

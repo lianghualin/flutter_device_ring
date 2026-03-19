@@ -49,11 +49,21 @@ class DeviceRing extends StatefulWidget {
   /// Only applies when [showGlow] is true.
   final double glowIntensity;
 
-  /// Optional label displayed below the ring.
+  /// Optional label string displayed below the ring.
+  /// Ignored when [labelWidget] is provided.
   final String? label;
 
-  /// Style for the label text.
+  /// Style for the label text. Only applies to [label], not [labelWidget].
   final TextStyle? labelStyle;
+
+  /// Custom widget displayed below the ring. Takes precedence over [label].
+  final Widget? labelWidget;
+
+  /// Maximum width for the label area. Defaults to [size].
+  final double? labelMaxWidth;
+
+  /// Padding between the ring and the label area.
+  final EdgeInsets labelPadding;
 
   const DeviceRing({
     super.key,
@@ -68,6 +78,9 @@ class DeviceRing extends StatefulWidget {
     this.glowIntensity = 0.5,
     this.label,
     this.labelStyle,
+    this.labelWidget,
+    this.labelMaxWidth,
+    this.labelPadding = const EdgeInsets.only(top: 4),
   });
 
   @override
@@ -150,7 +163,23 @@ class _DeviceRingState extends State<DeviceRing>
   Widget build(BuildContext context) {
     final inTier = UtilizationTier.fromValue(widget.inbound);
     final outTier = UtilizationTier.fromValue(widget.outbound);
-    final totalHeight = widget.label != null ? widget.size + 20 : widget.size;
+
+    // Determine label content: labelWidget takes precedence over label.
+    final hasLabel = widget.labelWidget != null || widget.label != null;
+    final labelContent = widget.labelWidget ??
+        (widget.label != null
+            ? Text(
+                widget.label!,
+                style: widget.labelStyle ??
+                    const TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black87,
+                    ),
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
+              )
+            : null);
 
     return AnimatedBuilder(
       animation: Listenable.merge([_arcController, _glowController]),
@@ -176,7 +205,6 @@ class _DeviceRingState extends State<DeviceRing>
 
         return SizedBox(
           width: widget.size + 20, // extra width for direction labels
-          height: totalHeight,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -236,20 +264,14 @@ class _DeviceRingState extends State<DeviceRing>
                   );
                 }),
               ),
-              if (widget.label != null)
+              if (hasLabel)
                 Padding(
-                  padding: const EdgeInsets.only(top: 4),
-                  child: Text(
-                    widget.label!,
-                    style: widget.labelStyle ??
-                        const TextStyle(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black87,
-                        ),
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
+                  padding: widget.labelPadding,
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxWidth: widget.labelMaxWidth ?? widget.size,
+                    ),
+                    child: labelContent,
                   ),
                 ),
             ],

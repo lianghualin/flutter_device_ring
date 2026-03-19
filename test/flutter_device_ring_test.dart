@@ -128,6 +128,82 @@ void main() {
       expect(widget.glowIntensity, 0.5);
     });
 
+    testWidgets('labelWidget takes precedence over label', (tester) async {
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: DeviceRing(
+              inbound: 0.5,
+              outbound: 0.3,
+              label: 'Should-Not-Show',
+              labelWidget: Text('Custom Label'),
+            ),
+          ),
+        ),
+      );
+      expect(find.text('Custom Label'), findsOneWidget);
+      expect(find.text('Should-Not-Show'), findsNothing);
+    });
+
+    testWidgets('labelWidget renders multi-line content', (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: DeviceRing(
+              inbound: 0.5,
+              outbound: 0.3,
+              labelWidget: const Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('Switch-A'),
+                  Text('10.0.0.1'),
+                  Text('[16 ports]'),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+      expect(find.text('Switch-A'), findsOneWidget);
+      expect(find.text('10.0.0.1'), findsOneWidget);
+      expect(find.text('[16 ports]'), findsOneWidget);
+    });
+
+    testWidgets('labelMaxWidth constrains label area', (tester) async {
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: DeviceRing(
+              inbound: 0.5,
+              outbound: 0.3,
+              label: 'Test',
+              labelMaxWidth: 60,
+            ),
+          ),
+        ),
+      );
+      final constrainedBox = find.byWidgetPredicate(
+        (w) => w is ConstrainedBox && w.constraints.maxWidth == 60,
+      );
+      expect(constrainedBox, findsOneWidget);
+    });
+
+    testWidgets('labelPadding defaults to EdgeInsets.only(top: 4)',
+        (tester) async {
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: DeviceRing(
+              inbound: 0.5,
+              outbound: 0.3,
+            ),
+          ),
+        ),
+      );
+      final widget = tester.widget<DeviceRing>(find.byType(DeviceRing));
+      expect(widget.labelPadding, const EdgeInsets.only(top: 4));
+    });
+
     testWidgets('shows info overlay when showInfo is true', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(

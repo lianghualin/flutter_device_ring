@@ -18,7 +18,7 @@ Add the package to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  flutter_device_ring: ^0.1.1
+  flutter_device_ring: ^0.2.0
 ```
 
 Then run:
@@ -91,6 +91,30 @@ DeviceRing(
   child: Icon(Icons.router, size: 40),
 )
 ```
+
+### With custom label widget
+
+Use `labelWidget` for multi-line labels or full control over the label area:
+
+```dart
+DeviceRing(
+  inbound: 0.72,
+  outbound: 0.45,
+  labelWidget: Column(
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      Text('Switch-A', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11)),
+      Text('10.0.0.1', style: TextStyle(fontSize: 9, color: Colors.grey)),
+      Text('[16 ports]', style: TextStyle(fontSize: 8, color: Colors.grey)),
+    ],
+  ),
+  labelMaxWidth: 120,
+  labelPadding: EdgeInsets.only(top: 8),
+  child: Icon(Icons.router, size: 40),
+)
+```
+
+When `labelWidget` is provided, it takes precedence over `label`.
 
 ### Show info overlay
 

@@ -1,3 +1,11 @@
+## 0.2.0
+
+* **New:** `labelWidget` parameter — display any custom widget below the ring (multi-line text, IP addresses, port counts, status badges, etc.). Takes precedence over `label`.
+* **New:** `labelMaxWidth` parameter — constrain the label area width (defaults to ring size).
+* **New:** `labelPadding` parameter — control spacing between ring and label area.
+* Label area height is now dynamic instead of fixed at 20px, supporting multi-line content.
+* Updated example app with "Custom Label Widgets" gallery section.
+
 ## 0.1.1
 
 * **Fix:** Child widget (images, SVGs) no longer overflows and covers ring arcs — automatically constrained to fit inside the ring with `FittedBox` scaling.
