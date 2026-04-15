@@ -216,7 +216,7 @@ class _DeviceRingState extends State<DeviceRing>
         }
 
         return SizedBox(
-          width: widget.size + 20, // extra width for direction labels
+          width: widget.size + (widget.theme.showDirectionLabels ? 20 : 0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [

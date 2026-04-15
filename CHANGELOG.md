@@ -1,3 +1,7 @@
+## 0.3.0
+
+* **Fix:** `DeviceRing` no longer reserves 20px extra width for direction labels when `showDirectionLabels` is `false`. Previously the ring center was offset 10px to the right, causing misalignment when positioning the widget by its center coordinate (e.g. in topology views with connection lines).
+
 ## 0.2.1
 
 * **New:** `labelBackgroundDecoration` parameter — add a background (color, border, shadow) behind the label for readability over overlapping elements like connection lines.

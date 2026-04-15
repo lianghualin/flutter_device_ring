@@ -18,7 +18,7 @@ Add the package to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  flutter_device_ring: ^0.2.1
+  flutter_device_ring: ^0.3.0
 ```
 
 Then run:
